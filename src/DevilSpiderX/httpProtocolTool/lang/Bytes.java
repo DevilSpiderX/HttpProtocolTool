@@ -593,7 +593,7 @@ public class Bytes implements java.io.Serializable, Comparable<Bytes>, ByteSeque
      * @return 结果字符串
      */
     public String getString() {
-        return new String(value);
+        return new String(value, 0, count);
     }
 
     /**
@@ -606,7 +606,7 @@ public class Bytes implements java.io.Serializable, Comparable<Bytes>, ByteSeque
      * @throws UnsupportedEncodingException 如果是不支持的字符集的名称
      */
     public String getString(String charsetName) throws UnsupportedEncodingException {
-        return new String(value, charsetName);
+        return new String(value, 0, count, charsetName);
     }
 
     /**
@@ -618,26 +618,8 @@ public class Bytes implements java.io.Serializable, Comparable<Bytes>, ByteSeque
      * @return 结果字符串
      */
     public String getString(Charset charset) {
-        return new String(value, charset);
+        return new String(value, 0, count, charset);
     }
-
-//    /**
-//     * 将指定的字节串连接到该字节串的末尾。
-//     * 如果参数字节串的长度为<code>0</code>，则返回此<code>Bytes</code>对象。
-//     * 否则，返回一个<code>Bytes</code>对象，表示一个字节序列
-//     * 该字节序列是由该<code>Bytes</code>对象表示的字节序列与由参数字节串表示的字节序列的级联。
-//     *
-//     * @param bytes <code>Bytes</code>被连接到这个<code>Bytes</code>
-//     * @return 一个字节串，表示此对象的字节后跟字节串参数的字节的并置
-//     */
-//    public Bytes concat(Bytes bytes) {
-//        int len1 = this.length();
-//        int len2 = bytes.length();
-//        byte[] newByteArray = new byte[len1 + len2];
-//        System.arraycopy(this.value, 0, newByteArray, 0, len1);
-//        System.arraycopy(bytes.value, 0, newByteArray, len1, len2);
-//        return new Bytes(newByteArray);
-//    }
 
     /**
      * 当且仅当此字节串包含指定的byte值序列时，才返回true。

@@ -1,6 +1,8 @@
 package DevilSpiderX.httpProtocolTool.handle;
 
 
+import DevilSpiderX.httpProtocolTool.lang.Bytes;
+
 import java.net.URI;
 
 /**
@@ -33,9 +35,27 @@ public class POSTHandler extends Handler {
         header = new Header(headerMsg);
     }
 
+    /**
+     * 解析请求体
+     *
+     * @param bodyMsg 请求体的内容
+     */
     public void parseBody(String bodyMsg) {
         if (header.contains("Content-Type")) {
             body = new Body(header.getAttribute("Content-Type"), bodyMsg);
+        } else {
+            body = new Body();
+        }
+    }
+
+    /**
+     * 解析请求体
+     *
+     * @param bodyBytes 请求体的内容，二进制形式
+     */
+    public void parseBody(Bytes bodyBytes) {
+        if (header.contains("Content-Type")) {
+            body = new Body(header.getAttribute("Content-Type"), bodyBytes);
         } else {
             body = new Body();
         }

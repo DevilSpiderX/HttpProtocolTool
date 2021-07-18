@@ -1,4 +1,4 @@
-<h1 align="center"">HTTP协议工具</h1>
+<h1 align="center">HTTP协议工具</h1>
 <p align="center">用于解析请求报文，构造响应报文</p>
 <p align="center">与SOCKET或者CHANNEL配合实现HTTP协议的服务器</p>
 

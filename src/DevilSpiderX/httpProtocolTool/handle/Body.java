@@ -1,5 +1,6 @@
 package DevilSpiderX.httpProtocolTool.handle;
 
+import DevilSpiderX.httpProtocolTool.lang.Bytes;
 import DevilSpiderX.httpProtocolTool.util.JSONType;
 import DevilSpiderX.httpProtocolTool.util.MyJSONValidator;
 import com.alibaba.fastjson.JSON;
@@ -62,6 +63,10 @@ public class Body {
         parse(contentType, bodyMsg);
     }
 
+    public Body(String contentType, Bytes bodyBytes) {
+        parse(contentType, bodyBytes);
+    }
+
     /**
      * 解析请求体
      *
@@ -116,6 +121,16 @@ public class Body {
                 break;
             }
         }
+    }
+
+    /**
+     * 解析请求体
+     *
+     * @param contentType 请求体的类型，在请求头中获取
+     * @param bodyBytes   请求体的内容，二进制形式
+     */
+    public void parse(String contentType, Bytes bodyBytes) {
+        parse(contentType, bodyBytes.getString());
     }
 
     /**
