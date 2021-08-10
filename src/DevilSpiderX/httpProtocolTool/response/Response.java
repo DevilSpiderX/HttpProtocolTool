@@ -256,12 +256,7 @@ public class Response {
             return assemble();
         } catch (NullStatus_LineException e) {
             e.printStackTrace();
-            Response errorResponse = new Response(500);
-            errorResponse.addHeader("Content-type", "text/html;charset=utf-8");
-            InputStream errorResponseInputStream =
-                    this.getClass().getResourceAsStream("/com/httpServerUtil/core/response/html/ErrorResponse.html");
-            errorResponse.addBodyFromStream(errorResponseInputStream);
-            return errorResponse.toString();
+            return Response500().toString();
         }
     }
 
@@ -295,12 +290,20 @@ public class Response {
             return assembleBytes();
         } catch (NullStatus_LineException e) {
             e.printStackTrace();
-            Response errorResponse = new Response(500);
-            errorResponse.addHeader("Content-type", "text/html;charset=utf-8");
-            InputStream errorResponseInputStream =
-                    this.getClass().getResourceAsStream("/com/httpServerUtil/core/response/html/ErrorResponse.html");
-            errorResponse.addBodyFromStream(errorResponseInputStream);
-            return errorResponse.toBytes();
+            return Response500().toBytes();
         }
+    }
+
+    /**
+     * 获得一个状态码为500的默认响应
+     *
+     * @return 状态码为500的默认响应
+     */
+    public static Response Response500() {
+        Response result = new Response(500);
+        result.addHeader("Content-type", "text/html;charset=utf-8");
+        InputStream in = Response.class.getResourceAsStream("html/ErrorResponse.html");
+        result.addBodyFromStream(in);
+        return result;
     }
 }
