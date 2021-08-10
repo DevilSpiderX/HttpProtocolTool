@@ -23,14 +23,12 @@ public class Response {
     private final Charset charset;
 
     public Response() {
-        StatusLine.init();
         header = new Header();
         body = new Body();
         charset = StandardCharsets.UTF_8;
     }
 
     public Response(int status) {
-        StatusLine.init();
         try {
             status_line = StatusLine.getStatus_Line(status);
         } catch (StatusNoExistException e) {
@@ -42,21 +40,18 @@ public class Response {
     }
 
     public Response(Charset charset) {
-        StatusLine.init();
         header = new Header();
         body = new Body();
         this.charset = charset;
     }
 
     public Response(String charsetName) {
-        StatusLine.init();
         header = new Header();
         body = new Body();
         this.charset = Charset.forName(charsetName);
     }
 
     public Response(int status, Charset charset) {
-        StatusLine.init();
         try {
             status_line = StatusLine.getStatus_Line(status);
         } catch (StatusNoExistException e) {
@@ -68,7 +63,6 @@ public class Response {
     }
 
     public Response(int status, String charsetName) {
-        StatusLine.init();
         try {
             status_line = StatusLine.getStatus_Line(status);
         } catch (StatusNoExistException e) {
@@ -238,7 +232,7 @@ public class Response {
      * @return 响应报文
      * @throws NullStatus_LineException 没有响应状态行异常
      */
-    public String assemble() throws NullStatus_LineException {
+    private String assemble() throws NullStatus_LineException {
         if (status_line == null) {
             throw new NullStatus_LineException();
         }
@@ -267,7 +261,7 @@ public class Response {
      * @return 二进制的响应报文
      * @throws NullStatus_LineException 没有响应状态行异常
      */
-    public byte[] assembleBytes() throws NullStatus_LineException {
+    private byte[] assembleBytes() throws NullStatus_LineException {
         if (status_line == null) {
             throw new NullStatus_LineException();
         }

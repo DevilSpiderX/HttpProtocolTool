@@ -1,7 +1,7 @@
 package DevilSpiderX.httpProtocolTool.response;
 
-import com.alibaba.fastjson.JSONObject;
 import DevilSpiderX.httpProtocolTool.exception.StatusNoExistException;
+import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -118,7 +118,7 @@ import java.nio.charset.StandardCharsets;
 public class StatusLine {
     private static JSONObject statusMap;
 
-    public static void init() {
+    static {
         InputStream in = StatusLine.class.getResourceAsStream("StatusLines.json");
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = null;
@@ -143,6 +143,7 @@ public class StatusLine {
             statusMap = JSONObject.parseObject(sb.toString());
         }
     }
+
 
     /**
      * 获取响应状态行
