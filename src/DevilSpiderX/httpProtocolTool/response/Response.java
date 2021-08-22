@@ -1,7 +1,7 @@
 package DevilSpiderX.httpProtocolTool.response;
 
 
-import DevilSpiderX.httpProtocolTool.exception.NullStatus_LineException;
+import DevilSpiderX.httpProtocolTool.exception.NullStatusException;
 import DevilSpiderX.httpProtocolTool.exception.StatusNoExistException;
 import DevilSpiderX.httpProtocolTool.lang.Bytes;
 
@@ -28,12 +28,8 @@ public class Response {
         charset = StandardCharsets.UTF_8;
     }
 
-    public Response(int status) {
-        try {
-            status_line = StatusLine.getStatus_Line(status);
-        } catch (StatusNoExistException e) {
-            e.printStackTrace();
-        }
+    public Response(int status) throws StatusNoExistException {
+        status_line = StatusLine.getStatusLine(status);
         header = new Header();
         body = new Body();
         charset = StandardCharsets.UTF_8;
@@ -51,23 +47,15 @@ public class Response {
         this.charset = Charset.forName(charsetName);
     }
 
-    public Response(int status, Charset charset) {
-        try {
-            status_line = StatusLine.getStatus_Line(status);
-        } catch (StatusNoExistException e) {
-            e.printStackTrace();
-        }
+    public Response(int status, Charset charset) throws StatusNoExistException {
+        status_line = StatusLine.getStatusLine(status);
         header = new Header();
         body = new Body();
         this.charset = charset;
     }
 
-    public Response(int status, String charsetName) {
-        try {
-            status_line = StatusLine.getStatus_Line(status);
-        } catch (StatusNoExistException e) {
-            e.printStackTrace();
-        }
+    public Response(int status, String charsetName) throws StatusNoExistException {
+        status_line = StatusLine.getStatusLine(status);
         header = new Header();
         body = new Body();
         charset = Charset.forName(charsetName);
@@ -77,13 +65,10 @@ public class Response {
      * 设置响应状态
      *
      * @param status 要设定为的状态码
+     * @throws StatusNoExistException <code>status</code>的值不在状态行的范围内时会抛出此异常
      */
-    public void setStatus(int status) {
-        try {
-            status_line = StatusLine.getStatus_Line(status);
-        } catch (StatusNoExistException e) {
-            e.printStackTrace();
-        }
+    public void setStatusLine(int status) throws StatusNoExistException {
+        status_line = StatusLine.getStatusLine(status);
     }
 
     /**
@@ -204,7 +189,7 @@ public class Response {
      *
      * @return 响应状态行的值
      */
-    public String getStatus_line() {
+    public String getStatusLine() {
         return status_line;
     }
 
@@ -230,10 +215,11 @@ public class Response {
      * 返回一个由所有内容组合而成的字符串
      *
      * @return 结果字符串
+     * @throws NullStatusException 该响应不存在状态行时会抛出此异常
      */
-    public String toRspString() throws NullStatus_LineException {
+    public String toRspString() throws NullStatusException {
         if (status_line == null) {
-            throw new NullStatus_LineException();
+            throw new NullStatusException();
         }
         return status_line + header + "\r\n" + new String(body.get(), charset);
     }
@@ -242,10 +228,11 @@ public class Response {
      * 返回一个由所有内容组合而成的字节串
      *
      * @return 结果字节串
+     * @throws NullStatusException 该响应不存在状态行时会抛出此异常
      */
-    public byte[] toRspBytes() throws NullStatus_LineException {
+    public byte[] toRspBytes() throws NullStatusException {
         if (status_line == null) {
-            throw new NullStatus_LineException();
+            throw new NullStatusException();
         }
 
         Bytes bytes = new Bytes();

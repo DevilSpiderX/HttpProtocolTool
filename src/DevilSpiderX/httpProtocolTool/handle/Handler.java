@@ -1,5 +1,7 @@
 package DevilSpiderX.httpProtocolTool.handle;
 
+import DevilSpiderX.httpProtocolTool.exception.RequestMethodUnsupportedException;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -18,8 +20,9 @@ public abstract class Handler {
      *
      * @param msg 请求报文
      * @return 相应类型的请求处理类
+     * @throws RequestMethodUnsupportedException 不支持请求报文<code>msg</code>的类型时会抛出此异常
      */
-    public static Handler parseHandler(String msg) {
+    public static Handler parseHandler(String msg) throws RequestMethodUnsupportedException {
         try {
             msg = URLDecoder.decode(msg, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
@@ -30,7 +33,7 @@ public abstract class Handler {
         } else if (msg.startsWith("POST")) {
             return new POSTHandler(msg);
         } else {
-            return parseHandler("GET /WrongMethod?status=methodError HTTP/1.1\n");
+            throw new RequestMethodUnsupportedException();
         }
     }
 

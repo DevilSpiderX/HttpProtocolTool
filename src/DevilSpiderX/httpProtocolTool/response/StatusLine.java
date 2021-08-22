@@ -152,7 +152,7 @@ public class StatusLine {
      * @return 响应状态行
      * @throws StatusNoExistException 响应状态不存在异常
      */
-    public static String getStatus_Line(int status) throws StatusNoExistException {
+    public static String getStatusLine(int status) throws StatusNoExistException {
         String status_Line = statusMap.getString(String.valueOf(status));
 
         if (status_Line == null) {

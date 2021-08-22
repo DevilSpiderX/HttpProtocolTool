@@ -5,8 +5,8 @@ package DevilSpiderX.httpProtocolTool.exception;
  *
  * @author <a target="_blank" href="https://github.com/DevilSpiderX">DevilSpiderX</a>
  */
-public class NullStatus_LineException extends Exception {
-    public NullStatus_LineException() {
-        super("Status_Line is Null");
+public class NullStatusException extends Exception {
+    public NullStatusException() {
+        super("StatusLine is Null");
     }
 }
