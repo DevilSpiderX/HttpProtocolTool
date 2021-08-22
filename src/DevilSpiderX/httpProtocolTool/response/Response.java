@@ -227,12 +227,11 @@ public class Response {
     }
 
     /**
-     * 组合响应状态行、响应头、响应体为一个完整的响应报文
+     * 返回一个由所有内容组合而成的字符串
      *
-     * @return 响应报文
-     * @throws NullStatus_LineException 没有响应状态行异常
+     * @return 结果字符串
      */
-    private String assemble() throws NullStatus_LineException {
+    public String toRspString() throws NullStatus_LineException {
         if (status_line == null) {
             throw new NullStatus_LineException();
         }
@@ -240,28 +239,11 @@ public class Response {
     }
 
     /**
-     * 返回一个由所有内容组合而成的字符串
+     * 返回一个由所有内容组合而成的字节串
      *
-     * @return 结果字符串
+     * @return 结果字节串
      */
-    @Override
-    public String toString() {
-        try {
-            return assemble();
-        } catch (NullStatus_LineException e) {
-            e.printStackTrace();
-            return Response500().toString();
-        }
-    }
-
-    /**
-     * 组合响应状态行、响应头、响应体为一个完整的响应报文
-     * （二进制的响应报文）
-     *
-     * @return 二进制的响应报文
-     * @throws NullStatus_LineException 没有响应状态行异常
-     */
-    private byte[] assembleBytes() throws NullStatus_LineException {
+    public byte[] toRspBytes() throws NullStatus_LineException {
         if (status_line == null) {
             throw new NullStatus_LineException();
         }
@@ -272,32 +254,5 @@ public class Response {
                 .append("\r\n".getBytes(charset))
                 .append(body.get());
         return bytes.toByteArray();
-    }
-
-    /**
-     * 返回一个由所有内容组合而成的字节串
-     *
-     * @return 结果字节串
-     */
-    public byte[] toBytes() {
-        try {
-            return assembleBytes();
-        } catch (NullStatus_LineException e) {
-            e.printStackTrace();
-            return Response500().toBytes();
-        }
-    }
-
-    /**
-     * 获得一个状态码为500的默认响应
-     *
-     * @return 状态码为500的默认响应
-     */
-    public static Response Response500() {
-        Response result = new Response(500);
-        result.addHeader("Content-type", "text/html;charset=utf-8");
-        InputStream in = Response.class.getResourceAsStream("html/ErrorResponse.html");
-        result.addBodyFromStream(in);
-        return result;
     }
 }
