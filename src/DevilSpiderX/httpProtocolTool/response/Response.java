@@ -108,6 +108,7 @@ public class Response {
      */
     public void addBody(String response_body) {
         body.add(response_body.getBytes(charset));
+        addIntHeader("Content-Length", body.size());
     }
 
     /**
@@ -138,6 +139,7 @@ public class Response {
                     e.printStackTrace();
                 }
             }
+            addIntHeader("Content-Length", body.size());
         }
     }
 
@@ -181,6 +183,7 @@ public class Response {
                     e.printStackTrace();
                 }
             }
+            addIntHeader("Content-Length", body.size());
         }
     }
 
