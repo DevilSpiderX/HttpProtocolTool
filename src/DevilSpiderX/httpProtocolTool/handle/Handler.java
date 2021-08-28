@@ -13,7 +13,10 @@ import java.nio.charset.StandardCharsets;
  * @author <a target="_blank" href="https://github.com/DevilSpiderX">DevilSpiderX</a>
  */
 public abstract class Handler {
-    Method method;
+    protected Method method;
+    protected String path;
+    protected String HTTPVersion;
+    protected Header header;
 
     /**
      * 解析请求报文并返回相应类型的请求处理类
@@ -51,28 +54,36 @@ public abstract class Handler {
      *
      * @return 请求路径
      */
-    public abstract String getPath();
+    public String getPath() {
+        return path;
+    }
 
     /**
      * 获取HTTP版本
      *
      * @return HTTP版本
      */
-    public abstract String getHTTPVersion();
+    public String getHTTPVersion() {
+        return HTTPVersion;
+    }
 
     /**
      * 获取请求头
      *
      * @return 请求头实例
      */
-    public abstract Header getHeader();
+    public Header getHeader() {
+        return header;
+    }
 
     /**
      * 获取请求头所有参数名
      *
      * @return 一个数组，包含请求头所有参数名
      */
-    public abstract String[] getHeaderKeys();
+    public String[] getHeaderKeys() {
+        return header.getKeys();
+    }
 
     /**
      * 获取请求头参数
@@ -80,7 +91,9 @@ public abstract class Handler {
      * @param key 参数名
      * @return 请求头参数
      */
-    public abstract String getHeaderAttribute(String key);
+    public String getHeaderAttribute(String key) {
+        return header.getAttribute(key);
+    }
 
     /**
      * 判断是否存在该请求头参数名
@@ -88,5 +101,7 @@ public abstract class Handler {
      * @param key 要判断的参数名
      * @return 如果存在该请求头参数名，则返回true；否则，返回false
      */
-    public abstract boolean headerKeyContains(String key);
+    public boolean headerKeyContains(String key) {
+        return header.contains(key);
+    }
 }
